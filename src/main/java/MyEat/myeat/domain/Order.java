@@ -24,7 +24,8 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
-    private List<OrderMenu> orderMenus = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    private List<OrderMenu> orderMenus = new ArrayList<OrderMenu>();
 
     private Long totalPrice ;
 
