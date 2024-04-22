@@ -1,10 +1,8 @@
 package MyEat.myeat.domain;
 
 import jakarta.persistence.*;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +21,7 @@ public class Customer {
 
     private String name;
 
-    @Embedded
-    private RabbitConnectionDetails.Address address;
+    private String address;
 
     private Long phoneNumber;
 
