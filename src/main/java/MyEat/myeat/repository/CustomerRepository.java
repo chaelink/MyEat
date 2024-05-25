@@ -17,6 +17,10 @@ public class CustomerRepository {
         em.persist(customer);
     }
 
+    public void findOne(Long id) {
+        em.find(Customer.class, id);
+    }
+
     public List<Customer> findByLoginId(String loginId) {
         return em.createQuery("select m from Customer m where m.loginId=loginId",Customer.class)
                 .getResultList();
