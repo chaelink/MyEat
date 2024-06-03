@@ -6,7 +6,8 @@
 
 <br>
 
-![image](https://github.com/chaelink/MyEat/assets/92051742/368b362e-c910-4d20-9a12-cfa0717ddefc)
+![image](https://github.com/chaelink/MyEat/assets/92051742/703f7ba0-2024-4e43-a044-85d7b540ddde)
+
 
 
 
