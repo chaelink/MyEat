@@ -35,6 +35,10 @@ public class CustomerService {
         }
     }
 
+    public Customer findOne(Long id) {
+        return customerRepository.findOne(id);
+    }
+
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
