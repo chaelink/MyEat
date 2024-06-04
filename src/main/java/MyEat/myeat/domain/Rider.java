@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter @Setter
 public class Rider {
@@ -22,4 +25,7 @@ public class Rider {
 
     @Enumerated(EnumType.STRING)
     private ContractStatus status;
+
+    @OneToMany(mappedBy = "rider")
+    private List<OrderDelivery>deliveryList = new ArrayList<>();
 }

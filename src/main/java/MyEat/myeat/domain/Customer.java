@@ -26,7 +26,7 @@ public class Customer {
     private Long phoneNumber;
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orderList = new ArrayList<Order>();
+    private List<OrderDelivery> orderDeliveryList = new ArrayList<OrderDelivery>();
 
     @Enumerated(EnumType.STRING)
     private ContractStatus status;

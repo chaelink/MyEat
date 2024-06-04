@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter @Setter
 @Entity
-public class Order {
+public class OrderDelivery {
 
     @Id @GeneratedValue
     @Column(name = "order_id")
@@ -24,8 +24,8 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderMenu> orderMenus = new ArrayList<OrderMenu>();
+    @OneToMany(mappedBy = "orderDelivery")
+    private List<OrderMenu> orderMenus = new ArrayList<>();
 
     private Long totalPrice ;
 
@@ -33,4 +33,8 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @JoinColumn(name = "rider_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rider rider;
 }
