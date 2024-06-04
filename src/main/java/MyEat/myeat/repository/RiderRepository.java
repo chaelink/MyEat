@@ -1,5 +1,6 @@
 package MyEat.myeat.repository;
 
+import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Rider;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,8 +18,20 @@ public class RiderRepository {
         em.persist(rider);
     }
 
+    public Rider findOne(Long id) {
+        return em.find(Rider.class, id);
+    }
+
     public List<Rider> findByLoginId(String loginid) {
-        return em.createQuery("select m from Rider m where m.loginId=loginId", Rider.class).getResultList();
+        return em.createQuery("select m from Rider m where m.loginId=loginId", Rider.class)
+                .getResultList();
+    }
+
+    public List<Rider> findContractYet() {
+        ContractStatus contractYet = ContractStatus.OFF;
+        return em.createQuery("select m from Rider m where m.status= :contractYet", Rider.class)
+                .setParameter("contractYet", contractYet)
+                .getResultList();
     }
 
 }

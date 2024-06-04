@@ -17,8 +17,8 @@ public class CustomerRepository {
         em.persist(customer);
     }
 
-    public void findOne(Long id) {
-        em.find(Customer.class, id);
+    public Customer findOne(Long id) {
+        return em.find(Customer.class, id);
     }
 
     public List<Customer> findByLoginId(String loginId) {
