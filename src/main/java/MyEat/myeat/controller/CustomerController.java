@@ -17,17 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @Tag(name="Customer API", description = "개인 고객 API")
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class CustomerController {
+
     private final CustomerService customerService;
 
-    @Hidden
+    //@Hidden
     @GetMapping(value = "/members/new")
     public String createForm(Model model) {
         model.addAttribute("CustomerForm", new CustomerForm());
         return "members/createCustomerForm";
     }
+
 
     @Operation(summary = "Customer 등록")
     @PostMapping(value = "/members/new")
@@ -46,6 +48,8 @@ public class CustomerController {
         customerService.join(customer);
         return "redirect:/";
     }
+
+
 
     @Operation(summary = "Customer 목록 조회")
     @GetMapping(value= "/members")
