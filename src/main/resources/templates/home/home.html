@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,12 +18,16 @@
             align-items: center;
         }
         .image-container {
-            flex: 1;
+            flex: 1 0 auto;
             text-align: center;
+            position: relative;
+            left: -120px;
         }
         .form-container {
             flex: 1;
             text-align: center;
+            position: relative;
+            right: -100px;
         }
         h1 {
             font-size: 2em;
@@ -49,13 +53,15 @@
 <body>
 <div class="container">
     <div class="image-container">
-        <img src="logo.png" alt="Sign Up Image" style="max-width: 100%; height: auto;">
+        <img src="image/logo.jpeg" alt="Sign Up Image" style="max-width: 100%; height: auto;" >
     </div>
     <div class="form-container">
         <h1>Sign Up</h1>
-        <button class="btn" onclick="window.location.href='customer-signup.html'">Customer</button>
-        <button class="btn" onclick="window.location.href='rider-signup.html'">Rider</button>
+        <button class="btn" onclick="window.location">
+            <a href="/members/new">Customer</a> </button>
+        <button class="btn" onclick="window.location.href=''">Rider</button>
         <button class="btn" onclick="window.location.href='restaurant-signup.html'">Restaurant</button>
+        <a href="members/new">zzz</a>
     </div>
 </div>
 </body>
