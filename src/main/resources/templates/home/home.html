@@ -28,6 +28,8 @@
             text-align: center;
             position: relative;
             right: -100px;
+            top: -50px;
+
         }
         h1 {
             font-size: 2em;
@@ -38,30 +40,33 @@
             width: 300px;
             padding: 30px;
             margin: 10px auto;
-            background-color: #e0f7f9;
+            background-color: #bde4e7;
             border: none;
             border-radius: 5px;
             font-size: 1.4em;
             cursor: pointer;
             text-transform: uppercase;
         }
+        .btn-bold {
+            font-weight: bold;
+            color: #ffffff;
+
+        }
         .btn:hover {
-            background-color: #bde4e7;
+            background-color: #33cccc;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="image-container">
-        <img src="image/logo.jpeg" alt="Sign Up Image" style="max-width: 100%; height: auto;" >
+        <img src="/logo.jpeg" alt="Sign Up Image" style="max-width: 100%; height: auto;" >
     </div>
     <div class="form-container">
         <h1>Sign Up</h1>
-        <button class="btn" onclick="window.location">
-            <a href="/members/new">Customer</a> </button>
-        <button class="btn" onclick="window.location.href=''">Rider</button>
-        <button class="btn" onclick="window.location.href='restaurant-signup.html'">Restaurant</button>
-        <a href="members/new">zzz</a>
+        <button class="btn btn-bold" onclick="window.location.href='/customers/new'">Customer </button>
+        <button class="btn btn-bold" onclick="window.location.href='/riders/new'">Rider</button>
+        <button class="btn btn-bold" onclick="window.location.href='restaurant-signup.html'">Restaurant</button>
     </div>
 </div>
 </body>
