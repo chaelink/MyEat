@@ -9,5 +9,6 @@ public class RiderForm {
     private String loginId;
     private String password;
     private String name;
-    private String phoneNumber;
+    private Long phoneNumber;
+    private String introduction;
 }

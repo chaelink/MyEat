@@ -23,6 +23,8 @@ public class Rider {
 
     private Long phoneNumber;
 
+    private String introduction;
+
     @Enumerated(EnumType.STRING)
     private ContractStatus status;
 
