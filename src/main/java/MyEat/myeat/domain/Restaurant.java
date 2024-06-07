@@ -14,4 +14,9 @@ public class Restaurant {
     @Id @GeneratedValue
     @Column(name = "restaurant_id")
     private Long id;
+
+    private String loginId;
+    private String password;
+    private String name;
+    private String address;
 }
