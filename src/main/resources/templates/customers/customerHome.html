@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyEat</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+        }
+        .image-container {
+            flex: 1 0 auto;
+            text-align: center;
+            position: relative;
+            left: -120px;
+        }
+        .form-container {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            right: -100px;
+            top: -50px;
+            color: #5a5f56;
+
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 70px;
+        }
+        .btn {
+            display: block;
+            width: 300px;
+            padding: 30px;
+            margin: 10px auto;
+            background-color: #bde4e7;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.4em;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .btn-bold {
+            font-weight: bold;
+            color: #ffffff;
+
+        }
+        .btn:hover {
+            background-color: #33cccc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="image-container">
+        <img src="/logo.jpeg" alt="Sign Up Image" style="max-width: 100%; height: auto;" >
+    </div>
+    <div class="form-container">
+        <h1>Enjoy Your Meal</h1>
+        <button class="btn btn-bold" onclick="window.location.href='/riders/list'">Rider 계약하기</button>
+        <button class="btn btn-bold" onclick="window.location.href=''">음식점 보러가기</button>
+        <button class="btn btn-bold" onclick="window.location.href='restaurant-signup.html'">MyPage</button>
+    </div>
+</div>
+</body>
+</html>

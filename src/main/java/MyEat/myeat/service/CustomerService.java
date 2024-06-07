@@ -29,14 +29,21 @@ public class CustomerService {
     }
 
     private void validateDuplicateCustomer(Customer customer) {
-        List<Customer> findCustomers = customerRepository.findByLoginId(customer.getLoginId());
-        if (!findCustomers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다");
+        Customer findcustomer = customerRepository.findByLoginId(customer.getLoginId());
+        if (findcustomer != null) {
+            throw new DuplicateCustomerException("이미 존재하는 아이디입니다");
         }
     }
 
-    public Customer findOne(Long id) {
-        return customerRepository.findOne(id);
+    //사용자 정의 예외 클래스
+    public class DuplicateCustomerException extends RuntimeException {
+        public DuplicateCustomerException(String message) {
+            super(message);
+        }
+    }
+
+    public Customer findByLoginId(String loginId) {
+        return customerRepository.findByLoginId(loginId);
     }
 
     public List<Customer> findAll() {
