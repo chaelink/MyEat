@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rider List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .rider-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .rider-info {
+            text-align: left;
+        }
+        .rider-info h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .rider-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .contract-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .contract-btn:hover {
+            background-color: #444;
+        }
+        .rider-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>RIDER LIST</h1>
+    <div th:each="rider : ${riders}" class="rider-card">
+        <div class="rider-info">
+            <h2 th:text="${rider.name} + ' 라이더'">Rider Name</h2>
+            <p th:text="${rider.area}">Rider Area</p>
+            <p th:text="'평균 배달 소요 시간 ' + ${rider.avgDeliveryTime} + '분'">Average Delivery Time</p>
+        </div>
+        <form th:action="@{/riders/contract}" method="post">
+            <input type="hidden" name="riderId" th:value="${rider.id}" />
+            <button type="submit" class="contract-btn">CONTRACT</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
