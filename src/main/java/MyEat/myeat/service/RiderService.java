@@ -36,5 +36,7 @@ public class RiderService {
         return riderRepository.findContractYet();
     }
 
+    public void contractRider()
+
 
 }

@@ -5,6 +5,7 @@ import MyEat.myeat.domain.Rider;
 import MyEat.myeat.service.RiderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -47,11 +48,14 @@ public class RiderController {
 
     @Operation(summary = "계약 가능한 Rider 목록")
     @GetMapping(value = "/riders/list")
-    public String showContractYetRiders(Model model) {
+    public String showContractYetRiders(HttpSession session, Model model) {
+        if(session.getAttribute("customerLoggedIn") == null) {
+            return "customers/login";
+        }
+
         List<Rider> riders = riderService.findContractYet();
         model.addAttribute("riders", riders);
         return "riders/contractYetRidersList";
-
     }
 
 
