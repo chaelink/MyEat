@@ -37,10 +37,9 @@ public class CustomerController {
     @PostMapping(value = "/customers/new")
     public String create(@Valid CustomerForm customerForm, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+            //result.getAllErrors().forEach(error -> System.out.println(error.toString()));
             return "customers/createCustomerForm";
         }
-
         Customer customer = new Customer();
         customer.setLoginId(customerForm.getLoginId());
         customer.setPassword(customerForm.getPassword());
@@ -69,7 +68,7 @@ public class CustomerController {
     public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password, HttpSession session, Model model) {
         Customer customer = customerService.findByLoginId(loginId);
         if(customer!= null && customer.getPassword().equals(password)) {
-            session.setAttribute("customerLoggedOn", customer);
+            session.setAttribute("customerLoggedIn", customer);
             return "customers/customerHome";
         } else {
             model.addAttribute("error",true);
