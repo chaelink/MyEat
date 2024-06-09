@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .restaurant-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .restaurant-info {
+            text-align: left;
+            width: 100%;
+        }
+        .restaurant-info h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .restaurant-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .menu-item span {
+            color: #666;
+        }
+        .menu-item select {
+            margin-left: 10px;
+            padding: 5px;
+        }
+        .order-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .order-button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>RESTAURANT LIST</h1>
+    <form id="orderForm" action="/order" method="post">
+        <div th:each="restaurant : ${restaurants}" class="restaurant-card">
+            <div class="restaurant-info">
+                <h2 th:text="${restaurant.name}">가게 명</h2>
+                <p th:text="${restaurant.address}">주소</p>
+            </div>
+            <div th:each="menu, iterStat : ${restaurant.menus}" class="menu-item">
+                <span th:text="${menu.menuName}">메뉴명</span>
+                <span th:text="${menu.menuPrice}">가격</span>
+                <label>수량 선택:</label>
+                <select name="menuQuantities[${menu.id}]" th:name="'menuQuantities[' + ${menu.id} + ']'">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <input type="hidden" name="restaurantId" th:value="${restaurant.id}" />
+            <button type="submit" class="order-button">주문하기</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

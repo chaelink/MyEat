@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 RESTAURANT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            position: relative;
+        }
+        h2 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            margin: 0;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 300px;
+        }
+        .menu-item label, .menu-item input {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .menu-item label {
+            width: 60px;
+        }
+        .menu-item input {
+            width: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #bde4e7;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #46d2db;
+        }
+        .add-menu-button {
+            background-color: #aeedb1;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<h2>회원가입 RESTAURANT</h2>
+<form action="/restaurants/new" method="post">
+    <div class="form-group">
+        <label for="loginId">아이디(사업자 등록 번호):</label>
+        <input type="text" id="loginId" name="loginId" required>
+    </div>
+    <div class="form-group">
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="name">상호명:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="address">주소:</label>
+        <input type="text" id="address" name="address" required>
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">전화번호:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required>
+    </div>
+    <div id="menu-container">
+        <div class="form-group menu-item">
+            <label for="menuName">메뉴명:</label>
+            <input type="text" id="menuName" name="menuNames" required>
+            <label for="menuPrice">가격:</label>
+            <input type="text" id="menuPrice" name="menuPrices" required>
+        </div>
+    </div>
+    <button type="button" class="add-menu-button" onclick="addMenuField()">메뉴 추가</button>
+    <button type="submit">가입하기</button>
+</form>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        function addMenuField() {
+            console.log('메뉴 추가 버튼 클릭됨');  // 디버깅용 로그
+            const menuContainer = document.getElementById('menu-container');
+            const menuDiv = document.createElement('div');
+            menuDiv.classList.add('form-group', 'menu-item');
+
+            const nameLabel = document.createElement('label');
+            nameLabel.textContent = '메뉴명:';
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.name = 'menuNames';
+            nameInput.required = true;
+
+            const priceLabel = document.createElement('label');
+            priceLabel.textContent = '가격:';
+            const priceInput = document.createElement('input');
+            priceInput.type = 'text';
+            priceInput.name = 'menuPrices';
+            priceInput.required = true;
+
+            menuDiv.appendChild(nameLabel);
+            menuDiv.appendChild(nameInput);
+            menuDiv.appendChild(priceLabel);
+            menuDiv.appendChild(priceInput);
+
+            menuContainer.appendChild(menuDiv);
+        }
+
+        // addMenuField 함수를 전역에서 호출할 수 있도록 window 객체에 추가합니다.
+        window.addMenuField = addMenuField;
+    });
+</script>
+</body>
+</html>
