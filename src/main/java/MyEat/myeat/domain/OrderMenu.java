@@ -16,6 +16,10 @@ public class OrderMenu {
     @ManyToOne(fetch = FetchType.LAZY)
     private OrderDelivery orderDelivery;
 
+    @JoinColumn(name = "menu_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Menu menu;
+
     private Long count;
 
     private Long menuPrice;

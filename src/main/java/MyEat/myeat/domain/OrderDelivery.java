@@ -32,9 +32,12 @@ public class OrderDelivery {
     private Date date;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     @JoinColumn(name = "rider_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Rider rider;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus deliveryStatus;
 }
