@@ -1,5 +1,6 @@
 package MyEat.myeat.service;
 
+import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Rider;
 import MyEat.myeat.repository.RiderRepository;
 import jakarta.transaction.Transactional;
@@ -36,7 +37,10 @@ public class RiderService {
         return riderRepository.findContractYet();
     }
 
-    public void contractRider()
+    public void contractRider(Long id) {
+        Rider rider = findOne(id);
+        rider.setStatus(ContractStatus.ON);
+    }
 
 
 }
