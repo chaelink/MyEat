@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Getter @Setter
 @Entity
@@ -24,8 +22,10 @@ public class OrderDelivery {
     @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "orderDelivery")
-    private List<OrderMenu> orderMenus = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "order_menus", joinColumns = @JoinColumn(name = "order_id"))
+    @MapKeyColumn(name = "menu_id")
+    private Map<Long, OrderItem> orderMenus = new HashMap<>();
 
     private Long totalPrice ;
 
