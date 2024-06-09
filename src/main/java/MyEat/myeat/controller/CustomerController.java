@@ -76,7 +76,7 @@ public class CustomerController {
         }
     }
 
-    @GetMapping(value = "/customers/logout")
+    @PostMapping(value = "/customers/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";

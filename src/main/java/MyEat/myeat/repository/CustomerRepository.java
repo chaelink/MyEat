@@ -22,12 +22,6 @@ public class CustomerRepository {
         return em.find(Customer.class, id);
     }
 
-//    public Customer findByLoginId(String loginId) {
-//        return em.find(Customer.class,loginId);
-//
-//        //return em.createQuery("select m from Customer m where m.loginId=loginId",Customer.class);
-//    }
-
     public Customer findByLoginId(String loginId) {
         TypedQuery<Customer> query = em.createQuery("SELECT c FROM Customer c WHERE c.loginId = :loginId", Customer.class);
         query.setParameter("loginId", loginId);

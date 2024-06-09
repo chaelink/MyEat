@@ -1,5 +1,6 @@
 package MyEat.myeat.service;
 
+import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
 import MyEat.myeat.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -14,12 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService {
 
-
     private final CustomerRepository customerRepository;
 
-//    public CustomerService(CustomerRepository customerRepository) {
-//        this.customerRepository = customerRepository;
-//    }
 
     @Transactional
     public Long join(Customer customer) {
@@ -44,6 +41,11 @@ public class CustomerService {
 
     public Customer findByLoginId(String loginId) {
         return customerRepository.findByLoginId(loginId);
+    }
+
+    public void contractCustomer(Long id) {
+        Customer customer = customerRepository.findOne(id);
+        customer.setStatus(ContractStatus.ON);
     }
 
     public List<Customer> findAll() {

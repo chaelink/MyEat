@@ -12,6 +12,39 @@
             height: 100vh;
             margin: 0;
             font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            position: relative;
+        }
+        .header {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 1em;
+        }
+        .header .user-info img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .header .logout-btn {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .header .logout-btn:hover {
+            background-color: #cc0000;
         }
         .container {
             display: flex;
@@ -30,7 +63,6 @@
             right: -100px;
             top: -50px;
             color: #5a5f56;
-
         }
         h1 {
             font-size: 2em;
@@ -51,7 +83,6 @@
         .btn-bold {
             font-weight: bold;
             color: #ffffff;
-
         }
         .btn:hover {
             background-color: #33cccc;
@@ -59,9 +90,18 @@
     </style>
 </head>
 <body>
+<div class="header">
+    <div class="user-info">
+<!--        <img src="/path/to/user-icon.png" alt="User Icon">-->
+        <span th:text="${session.customerLoggedIn.name}+' 님'">User Name</span>
+    </div>
+    <form th:action="@{/customers/logout}" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 <div class="container">
     <div class="image-container">
-        <img src="/logo.jpeg" alt="Sign Up Image" style="max-width: 100%; height: auto;" >
+        <img src="/logo.jpeg" alt="Sign Up Image" style="max-width: 100%; height: auto;">
     </div>
     <div class="form-container">
         <h1>Enjoy Your Meal</h1>
