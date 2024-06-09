@@ -58,6 +58,7 @@ public class CustomerController {
         return "customers/login";
     }
 
+
     @GetMapping(value = "/customers/login")
     public String login() {
         return "customers/login";
@@ -82,12 +83,4 @@ public class CustomerController {
         return "redirect:/";
     }
 
-
-    @Operation(summary = "Customer 목록 조회")
-    @GetMapping(value= "/customers")
-    public String list(Model model) {
-        List<Customer> customers = customerService.findAll();
-        model.addAttribute("customers", customers);
-        return "customers/customerList";
-    }
 }

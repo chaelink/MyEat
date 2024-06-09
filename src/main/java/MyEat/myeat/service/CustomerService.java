@@ -48,7 +48,7 @@ public class CustomerService {
         customer.setStatus(ContractStatus.ON);
     }
 
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public Customer findById(Long id) {
+        return customerRepository.findOne(id);
     }
 }
