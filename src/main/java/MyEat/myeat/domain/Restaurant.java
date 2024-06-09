@@ -22,6 +22,6 @@ public class Restaurant {
     private String address;
     private Long phoneNumber;
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Menu>menus =new ArrayList<>();
 }
