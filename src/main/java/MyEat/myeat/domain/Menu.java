@@ -13,9 +13,9 @@ public class Menu {
     private Long id;
 
     @JoinColumn(name = "restaurant_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Restaurant restaurant;
 
-    private String name;
-    private Long price;
+    private String menuName;
+    private Long menuPrice;
 }

@@ -11,8 +11,12 @@ public class MenuRepository {
     @PersistenceContext
     private EntityManager em;
 
-    private void save(Menu menu) {
+    public void save(Menu menu) {
         em.persist(menu);
+    }
+
+    public Menu findById(Long id) {
+        return em.find(Menu.class, id);
     }
 
 }
