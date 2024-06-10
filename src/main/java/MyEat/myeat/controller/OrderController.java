@@ -65,46 +65,4 @@ public class OrderController {
         return "customers/customerHome";
     }
 
-
-//    @PostMapping(value = "/order")
-//    public String order(HttpSession session, @RequestParam("restaurantId") Long restaurantId,
-//                        @RequestParam() Map<String, String[]> menuQuantities) {
-//
-//        if(session.getAttribute("customerLoggedIn") == null) {
-//            return "customers/login";
-//        }
-//
-//        Customer customer = (Customer) session.getAttribute("customerLoggedIn");
-//        Restaurant restaurant = restaurantService.findById(restaurantId);
-//
-//        Map<Long, OrderItem> orderMenus = new HashMap<>();
-//        Long totalPrice = 0L;
-//
-//        for (Map.Entry<String, String[]> entry : menuQuantities.entrySet()) {
-//            Long menuId = Long.parseLong(entry.getKey());
-//            int quantity = Integer.parseInt(entry.getValue()[0]);
-//
-//            if (quantity > 0) {
-//                Menu menu = menuService.findById(menuId);
-//                Long menuPrice = menu.getMenuPrice();
-//                orderMenus.put(menuId, new OrderItem(quantity, menuPrice));
-//                totalPrice += menuPrice * quantity;
-//            }
-//        }
-//
-//        OrderDelivery orderDelivery = new OrderDelivery();
-//        orderDelivery.setCustomer(customer);
-//        orderDelivery.setRestaurant(restaurant);
-//        orderDelivery.setOrderMenus(orderMenus);
-//        orderDelivery.setTotalPrice(totalPrice);
-//        orderDelivery.setDate(new Date());
-//        orderDelivery.setOrderStatus(OrderStatus.INPROGRESS);
-//
-//        orderService.save(orderDelivery);
-//
-//        return "customers/customerHome";
-//    }
-
-
-
 }
