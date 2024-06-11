@@ -12,3 +12,8 @@
 
 
 ![image](https://github.com/chaelink/MyEat/assets/92051742/7e522ccd-4219-44a0-9a7e-b552ea37c2fe)
+
+<br>
+
+## Entity 설계
+![image](https://github.com/chaelink/MyEat/assets/92051742/b805b5c4-5f31-41d2-8770-abc6d58c28ab)
