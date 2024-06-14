@@ -6,6 +6,7 @@ import MyEat.myeat.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +18,14 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public Long join(Customer customer) {
         validateDuplicateCustomer(customer);
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.save(customer);
         return customer.getId();
     }

@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,9 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Hidden
     @GetMapping(value = "/customers/new")
@@ -43,6 +48,7 @@ public class CustomerController {
         Customer customer = new Customer();
         customer.setLoginId(customerForm.getLoginId());
         customer.setPassword(customerForm.getPassword());
+
         customer.setName(customerForm.getName());
         customer.setAddress(customerForm.getAddress());
         customer.setPhoneNumber(customerForm.getPhoneNumber());
@@ -58,7 +64,7 @@ public class CustomerController {
         return "customers/login";
     }
 
-
+    @Hidden
     @GetMapping(value = "/customers/login")
     public String login() {
         return "customers/login";
@@ -68,7 +74,7 @@ public class CustomerController {
     @PostMapping(value = "/customers/login")
     public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password, HttpSession session, Model model) {
         Customer customer = customerService.findByLoginId(loginId);
-        if(customer!= null && customer.getPassword().equals(password)) {
+        if(customer!= null && passwordEncoder.matches(password, customer.getPassword())) {
             session.setAttribute("customerLoggedIn", customer);
             return "customers/customerHome";
         } else {
