@@ -19,6 +19,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    //용도 다시 공부
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         Customer customer = customerRepository.findByLoginId(loginId);
