@@ -2,6 +2,7 @@ package MyEat.myeat.service;
 
 import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
+import MyEat.myeat.domain.OrderDelivery;
 import MyEat.myeat.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -50,10 +51,14 @@ public class CustomerService {
 
     public void contractCustomer(Long id) {
         Customer customer = customerRepository.findOne(id);
-        customer.setStatus(ContractStatus.ON);
+        customer.setContractStatus(ContractStatus.ON);
     }
 
     public Customer findById(Long id) {
         return customerRepository.findOne(id);
+    }
+
+    public List<OrderDelivery> customerOrderedList(Customer customer) {
+        return customer.getOrderDeliveryList();
     }
 }

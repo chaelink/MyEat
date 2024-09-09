@@ -29,7 +29,7 @@ public class Customer {
     private List<OrderDelivery> orderDeliveryList = new ArrayList<OrderDelivery>();
 
     @Enumerated(EnumType.STRING)
-    private ContractStatus status;
+    private ContractStatus contractStatus;
 
     private Long point;
 

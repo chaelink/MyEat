@@ -52,7 +52,7 @@ public class CustomerController {
         customer.setName(customerForm.getName());
         customer.setAddress(customerForm.getAddress());
         customer.setPhoneNumber(customerForm.getPhoneNumber());
-        customer.setStatus(ContractStatus.OFF);
+        customer.setContractStatus(ContractStatus.OFF);
 
         try {
             customerService.join(customer);

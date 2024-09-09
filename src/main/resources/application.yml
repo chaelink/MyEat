@@ -1,9 +1,11 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/myeat
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/myeat
+    username: root
+    password: 1234
+
+
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -11,7 +13,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
