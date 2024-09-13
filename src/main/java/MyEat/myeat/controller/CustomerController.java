@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,39 +19,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name="Customer API", description = "개인 고객 API")
+@Tag(name="Customer API", description = "개인 고객 API") //FOR SWAGGER
 @Controller
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Hidden
-    @GetMapping(value = "/customers/new")
+    @GetMapping(value = "/customers/new")  //고객 회원가입 폼
     public String createForm(Model model) {
         model.addAttribute("CustomerForm", new CustomerForm());
         return "customers/createCustomerForm";
     }
 
 
-    @Operation(summary = "Customer 등록")
-    @PostMapping(value = "/customers/new")
+    @Operation(summary = "고객 회원가입")
+    @PostMapping(value = "/customers/new")  //고객 회원가입
     public String create(@Valid CustomerForm customerForm, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            //result.getAllErrors().forEach(error -> System.out.println(error.toString()));
             return "customers/createCustomerForm";
         }
-        Customer customer = new Customer();
-        customer.setLoginId(customerForm.getLoginId());
-        customer.setPassword(customerForm.getPassword());
 
-        customer.setName(customerForm.getName());
-        customer.setAddress(customerForm.getAddress());
-        customer.setPhoneNumber(customerForm.getPhoneNumber());
-        customer.setContractStatus(ContractStatus.OFF);
+        Customer customer = customerService.createCustomerFromForm(customerForm);
 
         try {
             customerService.join(customer);
@@ -65,27 +56,29 @@ public class CustomerController {
     }
 
     @Hidden
-    @GetMapping(value = "/customers/login")
+    @GetMapping(value = "/customers/login")  //고객 로그인 폼
     public String login() {
         return "customers/login";
     }
 
+
     @Operation(summary = "고객 로그인")
-    @PostMapping(value = "/customers/login")
-    public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password, HttpSession session, Model model) {
-        Customer customer = customerService.findByLoginId(loginId);
-        if(customer!= null && passwordEncoder.matches(password, customer.getPassword())) {
+    @PostMapping(value = "/customers/login")  //고객 로그인
+    public String login(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
+                        HttpSession session, Model model) {
+        try {
+            Customer customer = customerService.login(loginId,password);
             session.setAttribute("customerLoggedIn", customer);
             return "customers/customerHome";
-        } else {
-            model.addAttribute("error",true);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "customers/login";
         }
     }
 
     @PostMapping(value = "/customers/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
+        customerService.logout(session);
         return "redirect:/";
     }
 }

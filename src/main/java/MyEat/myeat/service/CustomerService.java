@@ -1,15 +1,18 @@
 package MyEat.myeat.service;
 
+import MyEat.myeat.controller.CustomerForm;
 import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
 import MyEat.myeat.domain.OrderDelivery;
 import MyEat.myeat.repository.CustomerRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.plaf.PanelUI;
 import java.util.List;
 
 @Service
@@ -24,11 +27,33 @@ public class CustomerService {
 
 
     @Transactional
-    public Long join(Customer customer) {
+    public void join(Customer customer) {
         validateDuplicateCustomer(customer);
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.save(customer);
-        return customer.getId();
+    }
+
+    public Customer createCustomerFromForm(CustomerForm form) {
+        Customer customer = new Customer();
+        customer.setLoginId(form.getLoginId());
+        customer.setPassword(form.getPassword());
+        customer.setName(form.getName());
+        customer.setAddress(form.getAddress());
+        customer.setPhoneNumber(form.getPhoneNumber());
+        customer.setContractStatus(ContractStatus.OFF);
+        return customer;
+    }
+
+    public Customer login(String loginId, String password) {
+        Customer customer = findByLoginId(loginId);
+        if (customer == null || !passwordEncoder.matches(password, customer.getPassword())) {
+            throw new IllegalArgumentException("존재하지 않는 ID이거나 비밀번호가 틀립니다.");
+        }
+        return customer;
+    }
+
+    public void logout(HttpSession session) {
+        session.invalidate();
     }
 
     private void validateDuplicateCustomer(Customer customer) {
