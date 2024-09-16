@@ -21,9 +21,7 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional

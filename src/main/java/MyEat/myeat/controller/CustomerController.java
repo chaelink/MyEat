@@ -1,6 +1,4 @@
 package MyEat.myeat.controller;
-
-import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
 import MyEat.myeat.service.CustomerService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 
 @Tag(name="Customer API", description = "개인 고객 API") //FOR SWAGGER
 @Controller
