@@ -37,28 +37,17 @@ public class RestaurantController {
 
     @Operation(summary = "Restaurant 등록")
     @PostMapping(value = "/restaurants/new")
-    public String create(@Valid RestaurantForm restaurantForm, BindingResult bindingResult, @RequestParam("menuNames") List<String> menuNames, @RequestParam(name = "menuPrices") List<Long> menuPrices, Model model) {
+    public String create(@Valid RestaurantForm restaurantForm, BindingResult bindingResult,
+                         @RequestParam("menuNames") List<String> menuNames, @RequestParam(name = "menuPrices") List<Long> menuPrices,
+                         Model model) {
         if (bindingResult.hasErrors()) {
             return "restaurants/createRestaurantForm";
         }
-        Restaurant restaurant = new Restaurant();
-        restaurant.setLoginId(restaurantForm.getLoginId());
-        restaurant.setPassword(restaurantForm.getPassword());
-        restaurant.setName(restaurantForm.getName());
-        restaurant.setAddress(restaurantForm.getAddress());
-        restaurant.setPhoneNumber(restaurantForm.getPhoneNumber());
+        Restaurant restaurant = restaurantService.createRestaurantFromForm(restaurantForm);
 
         try {
             restaurantService.join(restaurant);
-            for (int i=0; i<menuNames.size(); i++) {
-                Menu menu = new Menu();
-                menu.setMenuName(menuNames.get(i));
-                menu.setMenuPrice(menuPrices.get(i));
-                menu.setRestaurant(restaurant);
-                menuService.save(menu);
-                restaurant.getMenus().add(menu);
-            }
-
+            menuService.saveMenus(menuNames, menuPrices, restaurant);
         } catch (RestaurantService.DuplicateRestaurantException e) {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("showAlert",true);
