@@ -1,5 +1,6 @@
 package MyEat.myeat.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class Menu {
 
     @JoinColumn(name = "restaurant_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Restaurant restaurant;
 
     private String menuName;
