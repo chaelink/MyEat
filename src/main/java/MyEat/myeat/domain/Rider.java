@@ -1,5 +1,6 @@
 package MyEat.myeat.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class Rider {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rider_id")
     private Long id;
 
@@ -29,5 +30,6 @@ public class Rider {
     private ContractStatus status;
 
     @OneToMany(mappedBy = "rider")
+    @JsonManagedReference
     private List<OrderDelivery>deliveryList = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package MyEat.myeat.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Customer {
     private Long phoneNumber;
 
     @OneToMany(mappedBy = "customer")
+    @JsonManagedReference
     private List<OrderDelivery> orderDeliveryList = new ArrayList<OrderDelivery>();
 
     @Enumerated(EnumType.STRING)

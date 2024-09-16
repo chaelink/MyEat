@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class Restaurant {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
     private Long id;
 
@@ -26,4 +26,8 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Menu>menus =new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<OrderDelivery> orderDeliveryList = new ArrayList<>();
 }

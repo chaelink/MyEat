@@ -1,5 +1,6 @@
 package MyEat.myeat.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,16 +11,18 @@ import java.util.*;
 @Entity
 public class OrderDelivery {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
     @JoinColumn(name = "customer_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Customer customer;
 
     @JoinColumn(name = "restaurant_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Restaurant restaurant;
 
     @ElementCollection
@@ -36,6 +39,7 @@ public class OrderDelivery {
 
     @JoinColumn(name = "rider_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Rider rider;
 
     @Enumerated(EnumType.STRING)
