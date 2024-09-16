@@ -10,12 +10,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
@@ -39,25 +42,19 @@ public class RiderController {
         if (bindingResult.hasErrors()) {
             return "riders/createRiderForm";
         }
-        Rider rider = new Rider();
-        rider.setLoginId(riderForm.getLoginId());
-        rider.setPassword(riderForm.getPassword());
-        rider.setName(riderForm.getName());
-        rider.setPhoneNumber(riderForm.getPhoneNumber());
-        rider.setIntroduction(riderForm.getIntroduction());
-        rider.setStatus(ContractStatus.OFF);
+        Rider rider = riderService.createRiderFromForm(riderForm);
         riderService.join(rider);
         return "redirect:/";
     }
 
     @Operation(summary = "계약 가능한 Rider 목록")
     @GetMapping(value = "/riders/list")
-    public String showContractYetRiders(HttpSession session, Model model) {
+    public String showContractYetRiders(HttpSession session, Model model, Pageable pageable) {
         if(session.getAttribute("customerLoggedIn") == null) {
             return "customers/login";
         }
 
-        List<Rider> riders = riderService.findContractYet();
+        Page<Rider> riders = riderService.findContractYet(pageable);
         model.addAttribute("riders", riders);
         return "riders/contractYetRidersList";
     }

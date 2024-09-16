@@ -1,6 +1,5 @@
 package MyEat.myeat.controller;
 
-import MyEat.myeat.domain.Menu;
 import MyEat.myeat.domain.Restaurant;
 import MyEat.myeat.service.MenuService;
 import MyEat.myeat.service.RestaurantService;
@@ -59,7 +58,7 @@ public class RestaurantController {
 
     @Operation(summary = "음식점 목록")
     @GetMapping(value = "/restaurants/list")
-    public String restaurantsList( HttpSession session, Model model, Pageable pageable) {
+    public String restaurantsList(HttpSession session, Model model, Pageable pageable) {
         if(session.getAttribute("customerLoggedIn") == null) {
             return "customers/login";
         }

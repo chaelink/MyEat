@@ -50,22 +50,67 @@
             border-radius: 50%;
             margin-right: 20px;
         }
+        /* 페이징 스타일 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #000;
+        }
+        .pagination a.active {
+            background-color: #000;
+            color: #fff;
+        }
+        .pagination a:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        .pagination span {
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>RIDER LIST</h1>
-    <div th:each="rider : ${riders}" class="rider-card">
+    <div th:each="rider : ${riders.content}" class="rider-card">
         <div class="rider-info">
             <h2 th:text="${rider.name} + ' 라이더'">Rider Name</h2>
             <p th:text="${rider.introduction}">Rider Area</p>
-<!--            <p th:text="'평균 배달 소요 시간 ' + ${rider.avgDeliveryTime} + '분'">Average Delivery Time</p>-->
         </div>
         <form th:action="@{/riders/contract}" method="post">
             <input type="hidden" name="riderId" th:value="${rider.id}" />
             <button type="submit" class="contract-btn">CONTRACT</button>
         </form>
     </div>
+
+    <!-- 페이징 네비게이션 -->
+    <div class="pagination">
+        <!-- 이전 페이지 링크 -->
+        <span th:if="${riders.hasPrevious()}">
+            <a th:href="@{/riders/contract-yet(page=${riders.number - 1}, size=${riders.size})}">이전</a>
+        </span>
+
+        <!-- 페이지 번호 표시 -->
+        <span th:text="'Page ' + (${riders.number + 1}) + ' of ' + ${riders.totalPages}"></span>
+
+        <!-- 다음 페이지 링크 -->
+        <span th:if="${riders.hasNext()}">
+            <a th:href="@{/riders/contract-yet(page=${riders.number + 1}, size=${riders.size})}">다음</a>
+        </span>
+    </div>
+
 </div>
 </body>
 </html>
