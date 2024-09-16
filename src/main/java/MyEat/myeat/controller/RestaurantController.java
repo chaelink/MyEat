@@ -10,12 +10,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -66,15 +67,17 @@ public class RestaurantController {
         return "redirect:/";
     }
 
+
     @Operation(summary = "음식점 목록")
     @GetMapping(value = "/restaurants/list")
-    public String restaurantsList(HttpSession session, Model model) {
+    public String restaurantsList( HttpSession session, Model model, Pageable pageable) {
         if(session.getAttribute("customerLoggedIn") == null) {
             return "customers/login";
         }
 
-        List<Restaurant> restaurants = restaurantService.findAll();
-        model.addAttribute("restaurants", restaurants);
+        Page<Restaurant> restaurantPage =  restaurantService.findAll(pageable);
+        model.addAttribute("restaurants", restaurantPage.getContent());
+        model.addAttribute("page", restaurantPage);
         return "restaurants/restaurantsList";
 
     }

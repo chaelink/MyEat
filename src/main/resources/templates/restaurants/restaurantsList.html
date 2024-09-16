@@ -64,6 +64,35 @@
         .order-button:hover {
             background-color: #444;
         }
+        /* 페이징 스타일 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #000;
+        }
+        .pagination a.active {
+            background-color: #000;
+            color: #fff;
+        }
+        .pagination a:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        .pagination span {
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
     </style>
 </head>
 <body>
@@ -92,6 +121,23 @@
             <button type="submit" class="order-button">주문하기</button>
         </div>
     </form>
+
+    <!-- 페이징 네비게이션 추가 -->
+    <div class="pagination">
+        <!-- 이전 페이지 링크 -->
+        <span th:if="${page.hasPrevious()}">
+            <a th:href="@{/restaurants/list(page=${page.number - 1}, size=${page.size})}">이전</a>
+        </span>
+
+        <!-- 페이지 번호 표시 -->
+        <span th:text="'Page ' + (${page.number + 1}) + ' of ' + ${page.totalPages}"></span>
+
+        <!-- 다음 페이지 링크 -->
+        <span th:if="${page.hasNext()}">
+            <a th:href="@{/restaurants/list(page=${page.number + 1}, size=${page.size})}">다음</a>
+        </span>
+    </div>
+
 </div>
 </body>
 </html>

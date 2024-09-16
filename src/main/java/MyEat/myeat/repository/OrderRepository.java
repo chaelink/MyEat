@@ -20,7 +20,8 @@ public class OrderRepository {
     }
 
     public List<OrderDelivery> findByCustomerId(Customer customer) {
-        return em.createQuery("select m from OrderDelivery m where m.customer.id = customer.id ", OrderDelivery.class).getResultList();
+        return em.createQuery("select m from OrderDelivery m where m.customer.id = customer.id ", OrderDelivery.class)
+                .getResultList();
     }
 
 }

@@ -1,9 +1,12 @@
 package MyEat.myeat.service;
 
 import MyEat.myeat.domain.Restaurant;
+import MyEat.myeat.repository.ReataurantJPARepository;
 import MyEat.myeat.repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final ReataurantJPARepository restaurantJPARepository;
 
 
     public Long join(Restaurant restaurant) {
@@ -35,8 +39,10 @@ public class RestaurantService {
         }
     }
 
-    public List<Restaurant> findAll() {
-        return restaurantRepository.findAll();
+    public Page<Restaurant> findAll(Pageable pageable) {
+        //return restaurantRepository.findAll();
+        return restaurantJPARepository.findAll(pageable);
+
     }
 
     public Restaurant findById(Long id) {
