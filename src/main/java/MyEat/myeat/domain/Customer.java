@@ -23,6 +23,9 @@ public class Customer {
     private String name;
 
     private String address;
+    private String detailedAddress;
+    private Double latitude;  //위도
+    private Double longitude; //경도
 
     private Long phoneNumber;
 

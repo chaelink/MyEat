@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 CUSTOMER</title>
-    <script type="text/javascript">
-        window.onload = function() {
-            /* showAlert 변수가 true이면 알림창을 띄웁니다 */
-            [[${showAlert}]] && alert('이미 존재하는 아이디입니다');
-        }
-    </script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=tjw70i5j1j"></script>
+
     <style>
+        /* 기존 CSS 스타일 유지 */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -69,6 +66,7 @@
         }
     </style>
 </head>
+
 <body>
 <h2>회원가입 CUSTOMER</h2>
 <form action="/customers/new" method="post">
@@ -86,14 +84,51 @@
     </div>
     <div class="form-group">
         <label for="address">주소:</label>
-        <input type="text" id="address" name="address" required>
+        <input type="text" id="address" name="address" placeholder="주소를 입력하세요" required>
+        <button type="button" onclick="searchAddress()">주소 검색</button> <!-- 주소 검색 버튼 추가 -->
     </div>
+    <div class="form-group">
+        <label for="detailedAddress">상세 주소:</label>
+        <input type="text" id="detailedAddress" name="detailedAddress" placeholder="상세 주소를 입력하세요">
+    </div>
+    <!-- 숨김 처리된 위도와 경도 필드 -->
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+
     <div class="form-group">
         <label for="phoneNumber">전화번호:</label>
         <input type="text" id="phoneNumber" name="phoneNumber" required>
     </div>
-<!--    <div th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red;"></div>-->
     <button type="submit">가입하기</button>
 </form>
+
+<script type="text/javascript">
+    function searchAddress() {
+        const address = document.getElementById("address").value;
+
+        if (!address) {
+            alert("검색할 주소를 입력해주세요.");
+            return;
+        }
+
+        fetch(`/api/address/geocode?query=${encodeURIComponent(address)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.addresses && data.addresses.length > 0) {
+                    const result = data.addresses[0];
+                    document.getElementById("address").value = result.roadAddress || result.jibunAddress; // 검색 결과를 주소 필드에 입력
+                    document.getElementById("latitude").value = result.y;   // 위도
+                    document.getElementById("longitude").value = result.x;  // 경도
+                    alert(`주소가 검색되었습니다: ${result.roadAddress || result.jibunAddress}`);
+                } else {
+                    alert("주소를 찾을 수 없습니다. 다시 입력해주세요.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("주소 검색 중 오류가 발생했습니다.");
+            });
+    }
+</script>
 </body>
 </html>

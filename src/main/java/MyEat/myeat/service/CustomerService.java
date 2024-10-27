@@ -37,6 +37,9 @@ public class CustomerService {
         customer.setPassword(form.getPassword());
         customer.setName(form.getName());
         customer.setAddress(form.getAddress());
+        customer.setDetailedAddress(form.getDetailedAddress());
+        customer.setLatitude(form.getLatitude());
+        customer.setLongitude(form.getLongitude());
         customer.setPhoneNumber(form.getPhoneNumber());
         customer.setContractStatus(ContractStatus.OFF);
         return customer;
