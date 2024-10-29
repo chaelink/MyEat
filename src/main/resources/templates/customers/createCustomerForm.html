@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 CUSTOMER</title>
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <style>
         /* 기존 CSS 스타일 유지 */
@@ -47,10 +47,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        input[type="text"],
-        input[type="password"] {
-            width: 300px;
-        }
         button {
             width: 100%;
             padding: 10px;
@@ -82,15 +78,23 @@
         <label for="name">이름:</label>
         <input type="text" id="name" name="name" required>
     </div>
+
+    <!-- 우편번호 검색 기능 추가 -->
+    <div class="form-group">
+        <label for="postcode">우편번호:</label>
+        <input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly>
+        <button type="button" onclick="searchAddress()">주소 검색</button> <!-- 주소 검색 버튼 추가 -->
+    </div>
     <div class="form-group">
         <label for="address">주소:</label>
-        <input type="text" id="address" name="address" placeholder="주소를 입력하세요" required readonly>
-        <button type="button" onclick="openDaumPostcode()">주소 검색</button> <!-- 주소 검색 버튼 추가 -->
+        <input type="text" id="address" name="address" placeholder="주소" readonly><br>
     </div>
     <div class="form-group">
         <label for="detailedAddress">상세 주소:</label>
         <input type="text" id="detailedAddress" name="detailedAddress" placeholder="상세 주소를 입력하세요">
     </div>
+
+    <!-- 숨김 처리된 위도와 경도 필드 -->
     <input type="hidden" id="latitude" name="latitude">
     <input type="hidden" id="longitude" name="longitude">
 
@@ -102,14 +106,37 @@
 </form>
 
 <script type="text/javascript">
-    function openDaumPostcode() {
+    function searchAddress() {
         new daum.Postcode({
             oncomplete: function(data) {
-                // 선택한 주소를 address 필드에 넣음
-                document.getElementById("address").value = data.address;
+                var addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("address").value = addr;
+
+                fetch(`/api/get-coordinates?address=${encodeURIComponent(addr)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('카카오 API 응답 오류');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.documents && data.documents.length > 0) {
+                            const result = data.documents[0];
+                            document.getElementById("latitude").value = result.y;
+                            document.getElementById("longitude").value = result.x;
+                        } else {
+                            alert("위도와 경도를 가져올 수 없습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("주소 검색 중 오류가 발생했습니다. 관리자에게 문의하세요.");
+                    });
             }
         }).open();
     }
+
 </script>
 </body>
 </html>
