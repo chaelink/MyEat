@@ -36,7 +36,5 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private ContractStatus contractStatus;
 
-    private Long point;
-
 
 }

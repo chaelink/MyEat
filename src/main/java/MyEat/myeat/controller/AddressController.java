@@ -16,7 +16,7 @@ public class AddressController {
     private String kakaoApiKey;
 
     @GetMapping("/api/get-coordinates")
-    public ResponseEntity<String> getCoordinates(@RequestParam String address) {
+    public ResponseEntity<String> getCoordinates(@RequestParam("address") String address) {
         String url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "KakaoAK " + kakaoApiKey);
@@ -24,7 +24,12 @@ public class AddressController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-        return response;
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error fetching coordinates from Kakao API.");
+        }
     }
 }
