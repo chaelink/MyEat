@@ -4,6 +4,7 @@ import MyEat.myeat.controller.CustomerForm;
 import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
 import MyEat.myeat.domain.OrderDelivery;
+import MyEat.myeat.domain.Rider;
 import MyEat.myeat.repository.CustomerRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -75,10 +76,11 @@ public class CustomerService {
         return customerRepository.findByLoginId(loginId);
     }
 
-    public void contractCustomer(Long id) {
-        Customer customer = customerRepository.findOne(id);
-        customer.setContractStatus(ContractStatus.ON);
-    }
+//    public void contractCustomer(Customer customer, Long riderId) {
+//        customer.setContractStatus(ContractStatus.ON);
+//        customer.setRider(rider);
+//        //customerRepository.save(customer);
+//    }
 
     public Customer findById(Long id) {
         return customerRepository.findOne(id);

@@ -1,5 +1,6 @@
 package MyEat.myeat.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,8 +25,8 @@ public class Customer {
 
     private String address;
     private String detailedAddress;
-    private Double latitude;  //위도
-    private Double longitude; //경도
+    private double latitude;  //위도
+    private double longitude; //경도
 
     private Long phoneNumber;
 
@@ -36,5 +37,15 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private ContractStatus contractStatus;
 
+    @JoinColumn(name="rider_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Rider rider;
 
+    public Customer(Long id, double latitude, double longitude) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+    public Customer() {}
 }
