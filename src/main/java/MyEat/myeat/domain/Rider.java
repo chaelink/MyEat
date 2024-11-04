@@ -27,7 +27,13 @@ public class Rider {
     private String introduction;
 
     @Enumerated(EnumType.STRING)
-    private ContractStatus status;
+    private ContractStatus contractStatus;
+
+    private Long ContractCount;
+
+    @OneToMany(mappedBy = "rider",fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Customer> CustomerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "rider")
     @JsonManagedReference
