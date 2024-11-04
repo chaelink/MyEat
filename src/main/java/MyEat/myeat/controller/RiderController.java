@@ -3,6 +3,7 @@ package MyEat.myeat.controller;
 import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
 import MyEat.myeat.domain.Rider;
+import MyEat.myeat.repository.RiderRepository;
 import MyEat.myeat.service.CustomerService;
 import MyEat.myeat.service.RiderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ public class RiderController {
 
     private final RiderService riderService;
     private final CustomerService customerService;
+    private final RiderRepository riderRepository;
 
     @GetMapping(value = "/riders/new")
     public String createForm(Model model) {
@@ -54,23 +56,15 @@ public class RiderController {
             return "customers/login";
         }
 
-        Page<Rider> riders = riderService.findContractYet(pageable);
+        Customer customer = (Customer) session.getAttribute("customerLoggedIn");
+        double userLat = customer.getLatitude();
+        double userLon = customer.getLongitude();
+
+
+        //Page<Rider> riders = riderService.findContractYet(pageable);
+        List<Rider> riders = riderService.findContractYet(userLat,userLon);
         model.addAttribute("riders", riders);
         return "riders/contractYetRidersList";
-    }
-
-    @Operation(summary = "계약 진행")
-    @PostMapping(value = "/riders/contract")
-    public String contractRider(@RequestParam("riderId") Long riderId, HttpSession session, Model model) {
-        if(session.getAttribute("customerLoggedIn") == null) {
-            return "customers/login";
-        }
-
-        riderService.contractRider(riderId);
-        Customer customer = (Customer) session.getAttribute("customerLoggedIn");
-        Long customerId = customer.getId();
-        customerService.contractCustomer(customerId);
-        return "customers/customerHome";
     }
 
 

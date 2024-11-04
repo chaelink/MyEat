@@ -22,20 +22,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final PasswordEncoder passwordEncoder;
-
 
     @Hidden
     @GetMapping(value = "/customers/new")  //고객 회원가입 폼
     public String createForm(Model model) {
         model.addAttribute("CustomerForm", new CustomerForm());
         return "customers/createCustomerForm";
+
     }
 
 
     @Operation(summary = "고객 회원가입")
     @PostMapping(value = "/customers/new")  //고객 회원가입
     public String create(@Valid CustomerForm customerForm, BindingResult result, Model model) {
+        long startTime = System.currentTimeMillis();
         if (result.hasErrors()) {
             return "customers/createCustomerForm";
         }
@@ -49,6 +49,9 @@ public class CustomerController {
             model.addAttribute("showAlert",true);
             return "customers/createCustomerForm";
         }
+        long endTime = System.currentTimeMillis();
+        long totalTime = (endTime - startTime)/1000;
+        System.out.println(totalTime);
         return "customers/login";
     }
 
