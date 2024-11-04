@@ -1,3 +1,120 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Rider List</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+<!--        .container {-->
+<!--            width: 60%;-->
+<!--            margin: 0 auto;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--        .rider-card {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: space-between;-->
+<!--            background-color: #f7f7f7;-->
+<!--            border: 1px solid #ddd;-->
+<!--            padding: 20px;-->
+<!--            margin: 10px 0;-->
+<!--            border-radius: 8px;-->
+<!--        }-->
+<!--        .rider-info {-->
+<!--            text-align: left;-->
+<!--        }-->
+<!--        .rider-info h2 {-->
+<!--            margin: 0;-->
+<!--            font-size: 18px;-->
+<!--            color: #333;-->
+<!--        }-->
+<!--        .rider-info p {-->
+<!--            margin: 5px 0;-->
+<!--            color: #666;-->
+<!--        }-->
+<!--        .contract-btn {-->
+<!--            background-color: #000;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            padding: 10px 20px;-->
+<!--            border-radius: 5px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        .contract-btn:hover {-->
+<!--            background-color: #444;-->
+<!--        }-->
+<!--        .rider-img {-->
+<!--            width: 50px;-->
+<!--            height: 50px;-->
+<!--            border-radius: 50%;-->
+<!--            margin-right: 20px;-->
+<!--        }-->
+<!--        /* 페이징 스타일 */-->
+<!--        .pagination {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+<!--        .pagination a {-->
+<!--            padding: 10px 15px;-->
+<!--            margin: 0 5px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--            text-decoration: none;-->
+<!--            color: #000;-->
+<!--        }-->
+<!--        .pagination a.active {-->
+<!--            background-color: #000;-->
+<!--            color: #fff;-->
+<!--        }-->
+<!--        .pagination a:hover {-->
+<!--            background-color: #444;-->
+<!--            color: #fff;-->
+<!--        }-->
+<!--        .pagination span {-->
+<!--            padding: 10px 15px;-->
+<!--            margin: 0 5px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--            background-color: #f7f7f7;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>RIDER LIST</h1>-->
+<!--    <div th:each="rider : ${riders.content}" class="rider-card">-->
+<!--        <div class="rider-info">-->
+<!--            <h2 th:text="${rider.name} + ' 라이더'">Rider Name</h2>-->
+<!--            <p th:text="${rider.introduction}">Rider Area</p>-->
+<!--        </div>-->
+<!--        <form th:action="@{/riders/contract}" method="post">-->
+<!--            <input type="hidden" name="riderId" th:value="${rider.id}" />-->
+<!--            <button type="submit" class="contract-btn">CONTRACT</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; 페이징 네비게이션 &ndash;&gt;-->
+<!--    <div class="pagination">-->
+<!--        &lt;!&ndash; 이전 페이지 링크 &ndash;&gt;-->
+<!--        <span th:if="${riders.hasPrevious()}">-->
+<!--            <a th:href="@{/riders/contract-yet(page=${riders.number - 1}, size=${riders.size})}">이전</a>-->
+<!--        </span>-->
+
+<!--        &lt;!&ndash; 페이지 번호 표시 &ndash;&gt;-->
+<!--        <span th:text="'Page ' + (${riders.number + 1}) + ' of ' + ${riders.totalPages}"></span>-->
+
+<!--        &lt;!&ndash; 다음 페이지 링크 &ndash;&gt;-->
+<!--        <span th:if="${riders.hasNext()}">-->
+<!--            <a th:href="@{/riders/contract-yet(page=${riders.number + 1}, size=${riders.size})}">다음</a>-->
+<!--        </span>-->
+<!--    </div>-->
+
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -84,7 +201,7 @@
 <body>
 <div class="container">
     <h1>RIDER LIST</h1>
-    <div th:each="rider : ${riders.content}" class="rider-card">
+    <div th:each="rider : ${riders}" class="rider-card">
         <div class="rider-info">
             <h2 th:text="${rider.name} + ' 라이더'">Rider Name</h2>
             <p th:text="${rider.introduction}">Rider Area</p>
@@ -95,21 +212,7 @@
         </form>
     </div>
 
-    <!-- 페이징 네비게이션 -->
-    <div class="pagination">
-        <!-- 이전 페이지 링크 -->
-        <span th:if="${riders.hasPrevious()}">
-            <a th:href="@{/riders/contract-yet(page=${riders.number - 1}, size=${riders.size})}">이전</a>
-        </span>
-
-        <!-- 페이지 번호 표시 -->
-        <span th:text="'Page ' + (${riders.number + 1}) + ' of ' + ${riders.totalPages}"></span>
-
-        <!-- 다음 페이지 링크 -->
-        <span th:if="${riders.hasNext()}">
-            <a th:href="@{/riders/contract-yet(page=${riders.number + 1}, size=${riders.size})}">다음</a>
-        </span>
-    </div>
+    <!-- 페이징 네비게이션 제거 -->
 
 </div>
 </body>
