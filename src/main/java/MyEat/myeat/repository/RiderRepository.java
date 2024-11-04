@@ -29,7 +29,7 @@ public class RiderRepository {
 
     public List<Rider> findContractYet() {
         ContractStatus contractYet = ContractStatus.OFF;
-        return em.createQuery("select m from Rider m where m.status= :contractYet", Rider.class)
+        return em.createQuery("select m from Rider m where m.contractStatus= :contractYet", Rider.class)
                 .setParameter("contractYet", contractYet)
                 .getResultList();
     }
