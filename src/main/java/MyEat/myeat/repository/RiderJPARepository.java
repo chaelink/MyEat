@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RiderJPARepository extends JpaRepository<Rider, Long> {
-    Page<Rider> findByStatus(ContractStatus status, Pageable pageable);
+    Page<Rider> findByContractStatus(ContractStatus contractStatus, Pageable pageable);
 }
