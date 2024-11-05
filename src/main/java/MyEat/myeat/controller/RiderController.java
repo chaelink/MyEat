@@ -1,10 +1,6 @@
 package MyEat.myeat.controller;
-
-import MyEat.myeat.domain.ContractStatus;
 import MyEat.myeat.domain.Customer;
 import MyEat.myeat.domain.Rider;
-import MyEat.myeat.repository.RiderRepository;
-import MyEat.myeat.service.CustomerService;
 import MyEat.myeat.service.RiderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,8 +25,6 @@ import java.util.List;
 public class RiderController {
 
     private final RiderService riderService;
-    private final CustomerService customerService;
-    private final RiderRepository riderRepository;
 
     @GetMapping(value = "/riders/new")
     public String createForm(Model model) {
