@@ -62,10 +62,10 @@ public class RiderService {
     }
 
 
-//    public Page<Rider> findContractYet(Pageable pageable) {
-//        ContractStatus contractYet = ContractStatus.OFF;
-//        return riderJPARepository.findByContractStatus(contractYet,pageable);
-//    }
+    public List<Rider> findContractYetnorec() {
+        ContractStatus contractYet = ContractStatus.OFF;
+        return riderRepository.findContractYet();
+    }
 
 
     //=========================================추천 알고리즘
@@ -95,7 +95,7 @@ public class RiderService {
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return EARTH_RADIUS * c; // 결과 거리 (단위: km)
+        return EARTH_RADIUS * c; // 결과 거리 km
     }
 
     public List<Rider> findContractYet(double userLat, double userLon) {
@@ -121,10 +121,12 @@ public class RiderService {
             }
 
             // 평균 거리 계산
-            double averageDistance = (count > 0) ? (totalDistance / count) : Double.MAX_VALUE;
+            double averageDistance = (count > 0) ? (totalDistance / count) : 0;
 
             // 라이더와 평균 거리 저장
             riderDistances.add(new RiderDistance(rider, averageDistance));
+            System.out.println(rider.getId());
+            System.out.println(averageDistance);
         }
 
         // 평균 거리 기준으로 정렬 (가까운 순서대로)

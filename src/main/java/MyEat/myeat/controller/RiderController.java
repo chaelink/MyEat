@@ -45,7 +45,8 @@ public class RiderController {
 
     @Operation(summary = "계약 가능한 Rider 목록")
     @GetMapping(value = "/riders/list")
-    public String showContractYetRiders(HttpSession session, Model model, Pageable pageable) {
+    public String showContractYetRiders(HttpSession session, Model model) {
+        long startTime = System.currentTimeMillis();
         if(session.getAttribute("customerLoggedIn") == null) {
             return "customers/login";
         }
@@ -54,12 +55,34 @@ public class RiderController {
         double userLat = customer.getLatitude();
         double userLon = customer.getLongitude();
 
-
-        //Page<Rider> riders = riderService.findContractYet(pageable);
         List<Rider> riders = riderService.findContractYet(userLat,userLon);
         model.addAttribute("riders", riders);
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("추천 알고리즘 적용한 라이더 목록 반환 소요 시간 : "+ totalTime + "ms");
         return "riders/contractYetRidersList";
     }
+
+//    //추천 알고리즘 제외
+//    @Operation(summary = "계약 가능한 Rider 목록")
+//    @GetMapping(value = "/riders/list")
+//    public String showContractYetRiders(HttpSession session, Model model) {
+//        long startTime = System.currentTimeMillis();
+//        if(session.getAttribute("customerLoggedIn") == null) {
+//            return "customers/login";
+//        }
+//
+////        Customer customer = (Customer) session.getAttribute("customerLoggedIn");
+////        double userLat = customer.getLatitude();
+////        double userLon = customer.getLongitude();
+//        //Page<Rider> riders = riderService.findContractYet(pageable);
+//        List<Rider> riders = riderService.findContractYetnorec();
+//        model.addAttribute("riders", riders);
+//        long endTime = System.currentTimeMillis();
+//        long totalTime = endTime - startTime;
+//        System.out.println(totalTime);
+//        return "riders/contractYetRidersList";
+//    }
 
 
 }
