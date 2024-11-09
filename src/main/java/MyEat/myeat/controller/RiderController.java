@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Tag(name="Rider API", description = "라이더 API")
 @Controller
@@ -43,9 +44,9 @@ public class RiderController {
         return "redirect:/";
     }
 
-    @Operation(summary = "계약 가능한 Rider 목록")
-    @GetMapping(value = "/riders/list")
-    public String showContractYetRiders(HttpSession session, Model model) {
+    @Operation(summary = "계약 가능한 Rider 목록 Sync")
+    @GetMapping(value = "/riders/list/sync")
+    public String showContractYetRidersSync(HttpSession session, Model model) {
         long startTime = System.currentTimeMillis();
         if(session.getAttribute("customerLoggedIn") == null) {
             return "customers/login";
@@ -60,6 +61,33 @@ public class RiderController {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         System.out.println("추천 알고리즘 적용한 라이더 목록 반환 소요 시간 : "+ totalTime + "ms");
+        return "riders/contractYetRidersList";
+    }
+
+    @Operation(summary = "계약 가능한 Rider 목록 ASync")
+    @GetMapping(value = "/riders/list/async")
+    public String showContractYetRidersAsync(HttpSession session, Model model) {
+        long startTime = System.currentTimeMillis();
+        if(session.getAttribute("customerLoggedIn") == null) {
+            return "customers/login";
+        }
+
+        Customer customer = (Customer) session.getAttribute("customerLoggedIn");
+        double userLat = customer.getLatitude();
+        double userLon = customer.getLongitude();
+
+        CompletableFuture<List<Rider>> ridersFuture = riderService.findContractYetAsync(userLat,userLon);
+
+        try {
+            List<Rider> riders = ridersFuture.get();
+            model.addAttribute("riders", riders);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("추천 알고리즘 적용한 라이더 목록 반환 소요 시간(비동기) : "+ totalTime + "ms");
         return "riders/contractYetRidersList";
     }
 

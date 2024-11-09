@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -62,7 +64,7 @@ public class RiderService {
     }
 
 
-    public List<Rider> findContractYetnorec() {
+    public List<Rider> findContractYetnorecommend() {
         ContractStatus contractYet = ContractStatus.OFF;
         return riderRepository.findContractYet();
     }
@@ -139,6 +141,12 @@ public class RiderService {
         }
 
         return sortedRiders;
+    }
+
+    @Async
+    public CompletableFuture<List<Rider>> findContractYetAsync(double userLat, double userLon) {
+        List<Rider> sortedRiders = findContractYet(userLat, userLon);
+        return CompletableFuture.completedFuture(sortedRiders);
     }
 }
 
