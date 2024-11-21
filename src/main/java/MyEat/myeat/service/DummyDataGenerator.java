@@ -1,12 +1,11 @@
 package MyEat.myeat.service;
 
-import MyEat.myeat.domain.ContractStatus;
-import MyEat.myeat.domain.Customer;
-import MyEat.myeat.domain.Rider;
+import MyEat.myeat.domain.*;
 import com.github.javafaker.Faker;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,25 +15,23 @@ public class DummyDataGenerator {
     private final CustomerService customerService;
     private final RiderService riderService;
     private final ContractService contractService;
+    private final RestaurantService restaurantService;
+    private final MenuService menuService;
     private final Faker faker = new Faker(new Locale("ko"));
-    //String name = faker.name().fullName(); // 한국어 이름
-    //String address = faker.address().fullAddress(); // 한국어 주소
 
 
-    public DummyDataGenerator(CustomerService customerService, RiderService riderService, ContractService contractService) {
+    public DummyDataGenerator(CustomerService customerService, RiderService riderService, ContractService contractService, RestaurantService restaurantService, MenuService menuService) {
         this.customerService = customerService;
         this.riderService = riderService;
         this.contractService = contractService;
+        this.restaurantService = restaurantService;
+        this.menuService = menuService;
     }
 
     @Transactional
     public void generateCustomersAndRidersWithContracts(int startId, int count) {
-        List<Customer> customers = new ArrayList<>();
-        List<Rider> riders = new ArrayList<>();
-
         for (int i = 0; i < count; i++) {
             int id = startId + i;
-
             // 고객 생성
             Customer customer = new Customer();
             customer.setLoginId("customer" + id);
@@ -100,6 +97,32 @@ public class DummyDataGenerator {
             customerService.join(customer);
 
             System.out.println("Created " + customer.getId() );
+        }
+    }
+
+
+    public void generateRestaurant() {
+        List<String> menuNames = Arrays.asList("된장찌개","김치찌개","비지찌개", "고등어구이","참치", "공깃밥", "음료", "커피", "김치", "물");
+        List<Long> menuPrices = Arrays.asList(10000L, 10000L, 20000L, 20000L, 5000L, 5000L, 5000L, 5000L, 5000L, 5000L);
+
+        for(int i=1; i<=981; i++) {
+            Restaurant restaurant = new Restaurant();
+            restaurant.setLoginId(faker.name().username());
+            restaurant.setPassword("password");
+            restaurant.setName(faker.company().name());
+            restaurant.setAddress(faker.address().fullAddress());
+            restaurant.setPhoneNumber(faker.number().randomNumber(10, true));
+            restaurantService.join(restaurant);
+
+            for (int j=0; j<menuNames.size(); j++) {
+                Menu menu = new Menu();
+                menu.setMenuName(menuNames.get(j));
+                menu.setMenuPrice(menuPrices.get(j));
+                menu.setRestaurant(restaurant);
+                menuService.save(menu);
+                restaurant.getMenus().add(menu);
+            }
+
         }
     }
 

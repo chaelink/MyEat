@@ -54,4 +54,11 @@ public class ContractController {
         dummyDataGenerator.generateCustomers(1070, 87);
         return "Customer Data generation completed.";
     }
+
+    @GetMapping("/generateRes")
+    @ResponseBody
+    public String generateRes() {
+        dummyDataGenerator.generateRestaurant();
+        return "Restaurant Data generation completed.";
+    }
 }
