@@ -1,17 +1,22 @@
 package MyEat.myeat.service;
 
 import MyEat.myeat.controller.RestaurantForm;
+import MyEat.myeat.domain.MenuDTO;
 import MyEat.myeat.domain.Restaurant;
+import MyEat.myeat.domain.RestaurantDTO;
 import MyEat.myeat.repository.ReataurantJPARepository;
 import MyEat.myeat.repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,6 +26,7 @@ public class RestaurantService {
     private final ReataurantJPARepository restaurantJPARepository;
     private final PasswordEncoder passwordEncoder;
 
+    @CacheEvict(value = "RestaurantJoin")
     public Long join(Restaurant restaurant) {
         validateDuplicateRestaurant(restaurant);
         restaurant.setPassword(passwordEncoder.encode(restaurant.getPassword()));
@@ -52,10 +58,33 @@ public class RestaurantService {
         }
     }
 
-    public Page<Restaurant> findAll(Pageable pageable) {
-        //return restaurantRepository.findAll();
-        return restaurantJPARepository.findAll(pageable);
+//    @Cacheable(value = "Restaurant")
+//    public List<Restaurant> findAll() {
+//        return restaurantRepository.findAll();
+//    }
 
+    @Cacheable(value = "restaurantListCache", key = "'allRestaurants'")
+    public List<RestaurantDTO> findAll() {
+        return restaurantRepository.findAll().stream()
+                .map(restaurant -> {
+                    RestaurantDTO dto = new RestaurantDTO();
+                    dto.setId(restaurant.getId());
+                    dto.setName(restaurant.getName());
+                    dto.setAddress(restaurant.getAddress());
+                    List<MenuDTO> menuDTOs = restaurant.getMenus().stream()
+                            .map(menu -> {
+                                MenuDTO menuDTO = new MenuDTO();
+                                menuDTO.setId(menu.getId());
+                                menuDTO.setMenuName(menu.getMenuName());
+                                menuDTO.setMenuPrice(menu.getMenuPrice());
+                                return menuDTO;
+                            })
+                            .collect(Collectors.toList());
+
+                    dto.setMenus(menuDTOs);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     public Restaurant findById(Long id) {

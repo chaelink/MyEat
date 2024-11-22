@@ -1,6 +1,7 @@
 package MyEat.myeat.controller;
 
 import MyEat.myeat.domain.Restaurant;
+import MyEat.myeat.domain.RestaurantDTO;
 import MyEat.myeat.service.MenuService;
 import MyEat.myeat.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -56,16 +57,36 @@ public class RestaurantController {
     }
 
 
+//    @Operation(summary = "음식점 목록")
+//    @GetMapping(value = "/restaurants/list")
+//    public String restaurantsList(HttpSession session, Model model) {
+//        long startTime = System.currentTimeMillis();
+//        if(session.getAttribute("customerLoggedIn") == null) {
+//            return "customers/login";
+//        }
+//
+//        List<Restaurant> restaurants =  restaurantService.findAll();
+//        model.addAttribute("restaurants", restaurants);
+//        long endTime = System.currentTimeMillis();
+//        long totalTime = endTime - startTime;
+//        System.out.println("음식점 응답 시간 : "+ totalTime);
+//        return "restaurants/restaurantsList";
+//
+//    }
+
     @Operation(summary = "음식점 목록")
     @GetMapping(value = "/restaurants/list")
-    public String restaurantsList(HttpSession session, Model model, Pageable pageable) {
+    public String restaurantsList(HttpSession session, Model model) {
+        long startTime = System.currentTimeMillis();
         if(session.getAttribute("customerLoggedIn") == null) {
             return "customers/login";
         }
 
-        Page<Restaurant> restaurantPage =  restaurantService.findAll(pageable);
-        model.addAttribute("restaurants", restaurantPage.getContent());
-        model.addAttribute("page", restaurantPage);
+        List<RestaurantDTO> restaurants =  restaurantService.findAll();
+        model.addAttribute("restaurants", restaurants);
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("음식점 응답 시간 : "+ totalTime);
         return "restaurants/restaurantsList";
 
     }
